@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ASCII Code Quiz</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+  </style>
+</head>
+<body>
+  <h1>ASCII Code Quiz</h1>
+  <p>請問以下哪一個是 ASCII code 中代表大寫英文字母 'A' 的數值？</p>
+  <form id="quizForm">
+    <label>
+      <input type="radio" name="answer" value="A"> A. 65
+    </label><br>
+    <label>
+      <input type="radio" name="answer" value="B"> B. 97
+    </label><br>
+    <label>
+      <input type="radio" name="answer" value="C"> C. 72
+    </label><br>
+    <label>
+      <input type="radio" name="answer" value="D"> D. 88
+    </label><br><br>
+    <button type="button" onclick="submitQuiz()">提交答案</button>
+  </form>
+
+  <script>
+    function submitQuiz() {
+      // Get user's answer
+      var userAnswer = document.querySelector('input[name="answer"]:checked');
+
+      if (!userAnswer) {
+        alert("請選擇一個答案");
+        return;
+      }
+
+      // Build FHIR QuestionnaireResponse JSON
+      var questionnaireResponse = {
+        resourceType: "QuestionnaireResponse",
+        item: [
+          {
+            linkId: "1",
+            answer: [
+              {
+                valueCoding: {
+                  system: "http://terminology.hl7.org/CodeSystem/v2-0001",
+                  code: userAnswer.value
+                }
+              }
+            ]
+          }
+        ]
+      };
+
+      // Display JSON data (for demonstration purposes)
+      alert(JSON.stringify(questionnaireResponse, null, 2));
+    }
+  </script>
+</body>
+</html>
